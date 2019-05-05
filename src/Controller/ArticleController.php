@@ -10,6 +10,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class ArticleController extends AbstractController
 {
   /**
+   * @Route("/news/{slug}/heart", name="article_toggle_heart", methods={"POST"})
+   * @param $slug
+   */
+  public function toggleArticleHeart($slug)
+  {
+    // TODO - actually heart/unheart the article!
+    return $this->json(['hearts' => rand(5, 100)]);
+  }
+
+  /**
    * @Route("/", name="app_homepage")
    */
   public function homepage() {
@@ -32,6 +42,7 @@ class ArticleController extends AbstractController
     return $this->render('article/show.html.twig', [
       'title' => ucwords(str_replace('-', ' ', $slug)),
       'comments' => $comments,
+      'slug' => $slug
     ]);
   }
 }
