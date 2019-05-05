@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "sensio/framework-extra-bundle": "^5.3",
         "sensiolabs/security-checker": "^5.0",
+        "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",
         "symfony/dotenv": "4.2.*",
         "symfony/flex": "^1.1",
@@ -61,6 +62,12 @@
         }
     },
     "require-dev": {
-        "symfony/profiler-pack": "^1.0"
+        "easycorp/easy-log-handler": "^1.0.7",
+        "symfony/debug-bundle": "*",
+        "symfony/monolog-bundle": "^3.0",
+        "symfony/stopwatch": "*",
+        "symfony/twig-bundle": "*",
+        "symfony/var-dumper": "*",
+        "symfony/web-profiler-bundle": "*"
     }
 }
