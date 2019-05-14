@@ -5,6 +5,7 @@ namespace App\Controller;
 use Michelf\MarkdownInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
@@ -33,12 +34,13 @@ class ArticleController extends AbstractController
    * @Route("/news/{slug}", name="article_show")
    * @param $slug
    * @param Environment $twigEnvironment
+   * @param MarkdownInterface $markdown
    * @return Response
    * @throws \Twig\Error\LoaderError
    * @throws \Twig\Error\RuntimeError
    * @throws \Twig\Error\SyntaxError
    */
-  public function show($slug, Environment $twigEnvironment, MarkdownInterface $markdown) {
+  public function show($slug, Environment $twigEnvironment, MarkdownInterface $markdown, AdapterInterface $cache) {
     $comments = [
       'I ate a normal rock once. It did NOT taste like bacon!',
       'Woohoo! I\'m going on an all-asteroid diet!',
@@ -61,7 +63,14 @@ strip steak pork belly aliquip capicola officia. Labore deserunt esse chicken lo
 cow est ribeye adipisicing. Pig hamburger pork belly enim. Do porchetta minim capicola irure pancetta chuck
 fugiat.
 EOF;
-    $articleContent = $markdown->transform($articleContent);
+
+    $item = $cache->getItem('markdown_'.md5($articleContent));
+
+    if (!$item->isHit()) {
+      $item->set($markdown->transform($articleContent));
+      $cache->save($item);
+    }
+    $articleContent = $item->get();
 
     /*return $this->render('article/show.html.twig', [
       'title' => ucwords(str_replace('-', ' ', $slug)),
