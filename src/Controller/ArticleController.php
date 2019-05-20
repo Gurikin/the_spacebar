@@ -2,13 +2,17 @@
 
 namespace App\Controller;
 
-use Michelf\MarkdownInterface;
+use App\Service\MarkdownHelper;
+use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 
 class ArticleController extends AbstractController
@@ -16,6 +20,7 @@ class ArticleController extends AbstractController
   /**
    * @Route("/news/{slug}/heart", name="article_toggle_heart", methods={"POST"})
    * @param $slug
+   * @return JsonResponse
    */
   public function toggleArticleHeart($slug, LoggerInterface $logger) {
     // TODO - actually heart/unheart the article!
@@ -33,14 +38,13 @@ class ArticleController extends AbstractController
   /**
    * @Route("/news/{slug}", name="article_show")
    * @param $slug
-   * @param Environment $twigEnvironment
-   * @param MarkdownInterface $markdown
+   * @param MarkdownHelper $markdownHelper
    * @return Response
-   * @throws \Twig\Error\LoaderError
-   * @throws \Twig\Error\RuntimeError
-   * @throws \Twig\Error\SyntaxError
+   * @throws InvalidArgumentException
    */
-  public function show($slug, Environment $twigEnvironment, MarkdownInterface $markdown, AdapterInterface $cache) {
+  public function show($slug,
+                       MarkdownHelper $markdownHelper)
+  {
     $comments = [
       'I ate a normal rock once. It did NOT taste like bacon!',
       'Woohoo! I\'m going on an all-asteroid diet!',
@@ -64,20 +68,9 @@ cow est ribeye adipisicing. Pig hamburger pork belly enim. Do porchetta minim ca
 fugiat.
 EOF;
 
-    $item = $cache->getItem('markdown_'.md5($articleContent));
+    $articleContent = $markdownHelper->parse($articleContent);
 
-    if (!$item->isHit()) {
-      $item->set($markdown->transform($articleContent));
-      $cache->save($item);
-    }
-    $articleContent = $item->get();
-
-    /*return $this->render('article/show.html.twig', [
-      'title' => ucwords(str_replace('-', ' ', $slug)),
-      'comments' => $comments,
-      'slug' => $slug
-    ]);*/
-    $html = $twigEnvironment->render('article/show.html.twig', [
+    $html = $this->render('article/show.html.twig', [
       'title' => ucwords(str_replace('-', ' ', $slug)),
       'comments' => $comments,
       'slug' => $slug,
