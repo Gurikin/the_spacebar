@@ -39,12 +39,12 @@ class ArticleController extends AbstractController
    * @Route("/news/{slug}", name="article_show")
    * @param $slug
    * @param MarkdownHelper $markdownHelper
+   * @param bool $isDebug
    * @return Response
-   * @throws InvalidArgumentException
    */
   public function show($slug,
-                       MarkdownHelper $markdownHelper)
-  {
+                       MarkdownHelper $markdownHelper,
+                       bool $isDebug) : Response {
     $comments = [
       'I ate a normal rock once. It did NOT taste like bacon!',
       'Woohoo! I\'m going on an all-asteroid diet!',
