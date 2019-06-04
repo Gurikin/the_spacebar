@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Read: {{ title }}{% endblock %}
+{% block title %}Read: {{ article.title }}{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -18,14 +18,14 @@
                                 <span class="pl-2 article-details"> 4 hours ago</span>
                                 <span class="pl-2 article-details">
                                     <span class="js-like-article-count">5</span>
-                                    <a href="{{ path('article_toggle_heart', {slug: slug}) }}" class="fa fa-heart-o like-article js-like-article"></a>
+                                    <a href="{{ path('article_toggle_heart', {slug: article.slug}) }}" class="fa fa-heart-o like-article js-like-article"></a>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="article-text">
-                                {{ articleContent|raw }}
+                                {{ article.content|markdown }}
                             </div>
                         </div>
                     </div>
