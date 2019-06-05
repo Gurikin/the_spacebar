@@ -111,6 +111,9 @@
     "knplabs/knp-markdown-bundle": {
         "version": "1.7.1"
     },
+    "knplabs/knp-time-bundle": {
+        "version": "v1.9.1"
+    },
     "michelf/php-markdown": {
         "version": "1.8.0"
     },
@@ -387,6 +390,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.2.8"
+    },
+    "symfony/templating": {
+        "version": "v4.2.9"
     },
     "symfony/translation": {
         "version": "3.3",
