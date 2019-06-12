@@ -3,64 +3,60 @@
 namespace App\Controller;
 
 use App\Entity\Article;
-use App\Service\MarkdownHelper;
+use App\Repository\ArticleRepository;
 use App\Service\SlackClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Http\Client\Exception;
-use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 
 class ArticleController extends AbstractController
 {
   /**
    * @Route("/news/{slug}/heart", name="article_toggle_heart", methods={"POST"})
-   * @param $slug
+   * @param Article $article
+   * @param LoggerInterface $logger
+   * @param EntityManagerInterface $entityManager
    * @return JsonResponse
    */
-  public function toggleArticleHeart($slug, LoggerInterface $logger) {
-    // TODO - actually heart/unheart the article!
+  public function toggleArticleHeart(Article $article, LoggerInterface $logger, EntityManagerInterface $entityManager)
+  {
+    $article->incrementHeartCount();
+    $entityManager->persist($article);
+    $entityManager->flush();
     $logger->info('Article is being hearted!');
-    return $this->json(['hearts' => rand(5, 100)]);
+    return $this->json(['hearts' => $article->getHeartCount()]);
   }
 
   /**
    * @Route("/", name="app_homepage")
+   * @param ArticleRepository $articleRepository
+   * @return Response
    */
-  public function homepage() {
-    return $this->render('article/homepage.html.twig');
+  public function homepage(ArticleRepository $articleRepository)
+  {
+    $articles = $articleRepository->findAllPublishedOrderedByNewest();
+    return $this->render('article/homepage.html.twig', [
+      'articles' => $articles
+    ]);
   }
 
   /**
    * @Route("/news/{slug}", name="article_show")
-   * @param string $slug
-   * @param MarkdownHelper $markdownHelper
-   * @param bool $isDebug
+   * @param Article $article
    * @param SlackClient $slack
-   * @param EntityManagerInterface $entityManager
    * @return Response
    * @throws Exception
    */
-  public function show($slug,
-                       bool $isDebug,
-                       SlackClient $slack,
-                       EntityManagerInterface $entityManager) : Response {
-    if ($slug === 'testSlack') {
+  public function show(Article $article,
+                       SlackClient $slack): Response
+  {
+    if ($article->getSlug() === 'testSlack') {
       $slack->sendMessage('Kahn', 'Ah, Kirk, my old friend...');
-    }
-    $repository = $entityManager->getRepository(Article::class);
-    /** @var Article $article */
-    $article = $repository->findOneBy(['slug'=>$slug]);
-    if (!$article) {
-      throw $this->createNotFoundException(sprintf('No article for slug "%s"', $slug));
     }
 
     $comments = [
@@ -70,9 +66,9 @@ class ArticleController extends AbstractController
     ];
 
     $html = $this->render('article/show.html.twig', [
-      'title' => ucwords(str_replace('-', ' ', $slug)),
+      'title' => ucwords(str_replace('-', ' ', $article->getSlug())),
       'comments' => $comments,
-      'slug' => $slug,
+      'slug' => $article->getSlug(),
       'article' => $article
     ]);
     return new Response($html);

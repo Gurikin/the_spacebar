@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -14,37 +15,51 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class ArticleRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
-    {
-        parent::__construct($registry, Article::class);
-    }
+  public function __construct(RegistryInterface $registry)
+  {
+    parent::__construct($registry, Article::class);
+  }
 
-    // /**
-    //  * @return Article[] Returns an array of Article objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+  /**
+   * @return Article[] Returns an array of Article objects
+   */
+  public function findAllPublishedOrderedByNewest()
+  {
+    return $this->addIsPublishedQueryBuilder()
+      ->orderBy('a.publishedAt', 'ASC')
+      ->getQuery()
+      ->getArrayResult();
+  }
 
-    /*
-    public function findOneBySomeField($value): ?Article
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+  /**
+   * @param QueryBuilder|null $queryBuilder
+   * @return QueryBuilder
+   */
+  private function addIsPublishedQueryBuilder(QueryBuilder $queryBuilder = null)
+  {
+    return $this->getOrCreateQueryBuilder($queryBuilder)
+      ->andWhere('a.publishedAt is not null');
+  }
+
+  /**
+   * @param QueryBuilder|null $queryBuilder
+   * @return QueryBuilder
+   */
+  private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null)
+  {
+    return $queryBuilder ?: $this->createQueryBuilder('a');
+  }
+
+
+  /*
+  public function findOneBySomeField($value): ?Article
+  {
+      return $this->createQueryBuilder('a')
+          ->andWhere('a.exampleField = :val')
+          ->setParameter('val', $value)
+          ->getQuery()
+          ->getOneOrNullResult()
+      ;
+  }
+  */
 }
