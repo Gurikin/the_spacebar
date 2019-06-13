@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
@@ -23,7 +24,8 @@ class Article
   private $title;
 
   /**
-   * @ORM\Column(type="string", length=100, unique=true)
+   * @Gedmo\Slug(fields={"title"})
+   * @ORM\Column(type="string", length=128, unique=true)
    */
   private $slug;
 
