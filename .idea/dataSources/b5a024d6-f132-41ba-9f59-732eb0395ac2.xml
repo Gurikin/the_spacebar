@@ -1039,25 +1039,41 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="255" parent="235" name="PRIMARY">
+    <column id="255" parent="235" name="article_id">
+      <Position>6</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="256" parent="235" name="IDX_9474526C7294869C">
+      <ColNames>article_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="257" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="256" parent="236" name="version">
+    <foreign-key id="258" parent="235" name="FK_9474526C7294869C">
+      <ColNames>article_id</ColNames>
+      <RefSchemaName>symfony4_space_bar</RefSchemaName>
+      <RefTableName>article</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="259" parent="236" name="version">
       <Position>1</Position>
       <DataType>varchar(14)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="257" parent="236" name="executed_at">
+    <column id="260" parent="236" name="executed_at">
       <Position>2</Position>
       <Comment>(DC2Type:datetime_immutable)</Comment>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="258" parent="236" name="PRIMARY">
+    <key id="261" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>version</ColNames>
       <Primary>1</Primary>
