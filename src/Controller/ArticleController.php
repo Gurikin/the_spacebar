@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentRepository;
 use App\Service\SlackClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Http\Client\Exception;
@@ -58,18 +59,13 @@ class ArticleController extends AbstractController
     if ($article->getSlug() === 'testSlack') {
       $slack->sendMessage('Kahn', 'Ah, Kirk, my old friend...');
     }
-
-    $comments = [
-      'I ate a normal rock once. It did NOT taste like bacon!',
-      'Woohoo! I\'m going on an all-asteroid diet!',
-      'I like bacon too! Buy some from my site! bakinsomebacon.com',
-    ];
+    $comments = $article->getComments();
 
     $html = $this->render('article/show.html.twig', [
       'title' => ucwords(str_replace('-', ' ', $article->getSlug())),
-      'comments' => $comments,
       'slug' => $article->getSlug(),
-      'article' => $article
+      'article' => $article,
+      'comments' => $comments
     ]);
     return new Response($html);
   }
