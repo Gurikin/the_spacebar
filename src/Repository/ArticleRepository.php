@@ -28,7 +28,7 @@ class ArticleRepository extends ServiceEntityRepository
     return $this->addIsPublishedQueryBuilder()
       ->orderBy('a.publishedAt', 'ASC')
       ->getQuery()
-      ->getArrayResult();
+      ->getResult();
   }
 
   /**
