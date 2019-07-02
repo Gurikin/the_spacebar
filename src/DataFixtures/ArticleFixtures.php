@@ -59,19 +59,25 @@ EOF
       $article->setAuthor($this->faker->randomElement(self::$articleAuthors))
         ->setHeartCount($this->faker->numberBetween(5, 100))
         ->setImageFilename($this->faker->randomElement(self::$articleImages));
+      for ($i = 0; $i <= $this->faker->numberBetween(1,10); $i++) {
+        $comment = new Comment();
+        $comment->setAuthorName($this->faker->randomElement(self::$articleAuthors))
+          ->setContent('You start about bacon again?!')
+          ->setArticle($article)
+          ->setIsDeleted($this->faker->boolean(20));
+        $manager->persist($comment);
+      }
 
-      $comment1 = new Comment();
-      $comment1->setAuthorName($this->faker->randomElement(self::$articleAuthors))
-        ->setContent('You start about bacon again?!')
-        ->setArticle($article);
 
-      $comment2 = new Comment();
-      $comment2->setAuthorName($this->faker->randomElement(self::$articleAuthors))
-        ->setContent('Woohoo! I\'m going on an all - asteroid diet!')
-        ->setArticle($article);
 
-      $manager->persist($comment1);
-      $manager->persist($comment2);
+//      $comment2 = new Comment();
+//      $comment2->setAuthorName($this->faker->randomElement(self::$articleAuthors))
+//        ->setContent('Woohoo! I\'m going on an all - asteroid diet!')
+//        ->setArticle($article)
+//        ->setIsDeleted($this->faker->boolean(20));
+
+
+//      $manager->persist($comment2);
     });
     $manager->flush();
   }

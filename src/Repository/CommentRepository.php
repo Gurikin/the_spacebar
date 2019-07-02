@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Article;
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -18,6 +20,25 @@ class CommentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Comment::class);
     }
+
+  public static function createNonDeletedCriteria(): Criteria
+  {
+    return Criteria::create()
+      ->andWhere(Criteria::expr()->eq('isDeleted', false))
+      ->orderBy(['createdAt' => 'DESC'])
+      ;
+  }
+
+//    public function getNonDeletedComments(Article $article)
+//    {
+//      return $this->createQueryBuilder('comment')
+//        ->andWhere('comment.isDeleted = :val')
+//        ->andWhere('comment.article = :article')
+//        ->setParameter('val', 0)
+//        ->setParameter('article', $article)
+//        ->getQuery()
+//        ->getResult();
+//    }
 
     // /**
     //  * @return Comment[] Returns an array of Comment objects

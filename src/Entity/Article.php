@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use App\Repository\CommentRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -223,6 +225,12 @@ class Article
   public function getComments(): Collection
   {
       return $this->comments;
+  }
+
+  public function getNonDeletedComments(): Collection
+  {
+    $criteria = CommentRepository::createNonDeletedCriteria();
+    return $this->comments->matching($criteria);
   }
 
   public function addComment(Comment $comment): self

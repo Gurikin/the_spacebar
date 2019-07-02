@@ -50,22 +50,25 @@ class ArticleController extends AbstractController
    * @Route("/news/{slug}", name="article_show")
    * @param Article $article
    * @param SlackClient $slack
+   * @param CommentRepository $commentRepository
    * @return Response
    * @throws Exception
    */
   public function show(Article $article,
-                       SlackClient $slack): Response
+                       SlackClient $slack,
+                       CommentRepository $commentRepository): Response
   {
     if ($article->getSlug() === 'testSlack') {
       $slack->sendMessage('Kahn', 'Ah, Kirk, my old friend...');
     }
-    $comments = $article->getComments();
+//    $comments = $article->getComments();
+//    $comments = $commentRepository->getNonDeletedComments($article);
 
     $html = $this->render('article/show.html.twig', [
       'title' => ucwords(str_replace('-', ' ', $article->getSlug())),
       'slug' => $article->getSlug(),
       'article' => $article,
-      'comments' => $comments
+//      'comments' => $comments
     ]);
     return new Response($html);
   }
