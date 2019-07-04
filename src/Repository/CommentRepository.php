@@ -29,6 +29,23 @@ class CommentRepository extends ServiceEntityRepository
       ;
   }
 
+  /**
+   * @param string|null $term
+   * @return Comment[]
+   */
+  public function findAllWithSearch(?string $term)
+  {
+    $queryBuilder = $this->createQueryBuilder('c');
+    if ($term) {
+      $queryBuilder->andWhere('c.content LIKE :term OR c.authorName LIKE :term')
+        ->setParameter('term', '%' . $term . '%');
+    }
+    return $queryBuilder
+      ->orderBy('c.createdAt', 'DESC')
+      ->getQuery()
+      ->getResult();
+  }
+
 //    public function getNonDeletedComments(Article $article)
 //    {
 //      return $this->createQueryBuilder('comment')
