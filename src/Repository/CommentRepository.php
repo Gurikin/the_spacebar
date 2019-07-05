@@ -35,9 +35,11 @@ class CommentRepository extends ServiceEntityRepository
    */
   public function findAllWithSearch(?string $term)
   {
-    $queryBuilder = $this->createQueryBuilder('c');
+    $queryBuilder = $this->createQueryBuilder('c')
+    ->innerJoin('c.article', 'a')
+    ->addSelect('a');
     if ($term) {
-      $queryBuilder->andWhere('c.content LIKE :term OR c.authorName LIKE :term')
+      $queryBuilder->andWhere('c.content LIKE :term OR c.authorName LIKE :term OR a.title LIKE :term')
         ->setParameter('term', '%' . $term . '%');
     }
     return $queryBuilder
@@ -45,44 +47,4 @@ class CommentRepository extends ServiceEntityRepository
       ->getQuery()
       ->getResult();
   }
-
-//    public function getNonDeletedComments(Article $article)
-//    {
-//      return $this->createQueryBuilder('comment')
-//        ->andWhere('comment.isDeleted = :val')
-//        ->andWhere('comment.article = :article')
-//        ->setParameter('val', 0)
-//        ->setParameter('article', $article)
-//        ->getQuery()
-//        ->getResult();
-//    }
-
-    // /**
-    //  * @return Comment[] Returns an array of Comment objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Comment
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
