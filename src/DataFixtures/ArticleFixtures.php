@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\Tag;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\BaseFixtures;
@@ -66,6 +67,10 @@ EOF
           ->setArticle($article)
           ->setIsDeleted($this->faker->boolean(20));
         $manager->persist($comment);
+        $tag = new Tag();
+        $tag->setName($this->faker->realText(20))
+        ->setSlug($article->getSlug());
+        $manager->persist($tag);
       }
 
 
