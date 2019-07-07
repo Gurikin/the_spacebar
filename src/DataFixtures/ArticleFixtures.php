@@ -5,12 +5,10 @@ namespace App\DataFixtures;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Entity\Tag;
-use DateTime;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use App\DataFixtures\BaseFixtures;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class ArticleFixtures extends BaseFixtures
+class ArticleFixtures extends BaseFixtures implements DependentFixtureInterface
 {
   private static $articleTitles = [
     'Why Asteroids Taste Like Bacon',
@@ -60,30 +58,50 @@ EOF
       $article->setAuthor($this->faker->randomElement(self::$articleAuthors))
         ->setHeartCount($this->faker->numberBetween(5, 100))
         ->setImageFilename($this->faker->randomElement(self::$articleImages));
-      for ($i = 0; $i <= $this->faker->numberBetween(1,10); $i++) {
+      for ($i = 0; $i <= $this->faker->numberBetween(1, 10); $i++) {
         $comment = new Comment();
         $comment->setAuthorName($this->faker->randomElement(self::$articleAuthors))
           ->setContent('You start about bacon again?!')
           ->setArticle($article)
           ->setIsDeleted($this->faker->boolean(20));
         $manager->persist($comment);
-        $tag = new Tag();
-        $tag->setName($this->faker->realText(20))
-        ->setSlug($article->getSlug());
-        $manager->persist($tag);
       }
-
-
-
-//      $comment2 = new Comment();
-//      $comment2->setAuthorName($this->faker->randomElement(self::$articleAuthors))
-//        ->setContent('Woohoo! I\'m going on an all - asteroid diet!')
-//        ->setArticle($article)
-//        ->setIsDeleted($this->faker->boolean(20));
-
-
-//      $manager->persist($comment2);
+      $tag = new Tag();
+      $tag->setName($this->faker->realText(20));
+      $manager->persist($tag);
+      $article->addTag($tag);
     });
     $manager->flush();
+  }
+
+//  /**
+//   * This method must return an array of fixtures classes
+//   * on which the implementing class depends on
+//   *
+//   * @return array
+//   */
+//  public function getDependencies()
+//  {
+//    return [TagFixture::class];
+//  }
+  /**
+   * This method must return an array of fixtures classes
+   * on which the implementing class depends on
+   *
+   * @return array
+   */
+//  public function getDependencies()
+//  {
+//    return [TagFixture::class];
+//  }
+  /**
+   * This method must return an array of fixtures classes
+   * on which the implementing class depends on
+   *
+   * @return array
+   */
+  public function getDependencies()
+  {
+    return [TagFixture::class];
   }
 }

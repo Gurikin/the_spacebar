@@ -15,6 +15,7 @@ class CommentAdminController extends AbstractController
    * @Route("/admin/comment", name="comment_admin")
    * @param CommentRepository $repository
    * @param Request $request
+   * @param PaginatorInterface $paginator
    * @return Response
    */
   public function index(CommentRepository $repository, Request $request, PaginatorInterface $paginator)

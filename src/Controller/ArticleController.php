@@ -7,6 +7,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use App\Service\SlackClient;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\QueryException;
 use Http\Client\Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,6 +38,7 @@ class ArticleController extends AbstractController
    * @Route("/", name="app_homepage")
    * @param ArticleRepository $articleRepository
    * @return Response
+   * @throws QueryException
    */
   public function homepage(ArticleRepository $articleRepository)
   {

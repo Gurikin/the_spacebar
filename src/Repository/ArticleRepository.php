@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -22,7 +23,7 @@ class ArticleRepository extends ServiceEntityRepository
 
   /**
    * @return Article[] Returns an array of Article objects
-   * @throws \Doctrine\ORM\Query\QueryException
+   * @throws QueryException
    */
   public function findAllPublishedOrderedByNewest()
   {
@@ -30,6 +31,8 @@ class ArticleRepository extends ServiceEntityRepository
       ->addCriteria(CommentRepository::createNonDeletedCriteria());
 
     return $this->addIsPublishedQueryBuilder()
+      ->leftJoin('a.tags', 't')
+      ->addSelect('t')
       ->orderBy('a.publishedAt', 'DESC')
       ->getQuery()
       ->getResult()
