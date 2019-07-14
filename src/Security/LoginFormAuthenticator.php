@@ -6,8 +6,9 @@ use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
@@ -22,13 +23,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
    * @var UserRepository
    */
   private $userRepository;
+  /**
+   * @var RouterInterface
+   */
+  private $router;
 
   /**
    * LoginFormAuthenticator constructor.
    * @param UserRepository $userRepository
+   * @param RouterInterface $router
    */
-  public function __construct(UserRepository $userRepository) {
+  public function __construct(UserRepository $userRepository, RouterInterface $router)
+  {
     $this->userRepository = $userRepository;
+    $this->router = $router;
   }
 
   /**
@@ -48,10 +56,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
    */
   public function getCredentials(Request $request)
   {
-    return [
+    $credentials = [
       'email' => $request->request->get('email'),
       'password' => $request->request->get('password'),
     ];
+    $request->getSession()->set(
+      Security::LAST_USERNAME,
+      $credentials['email']
+    );
+    return $credentials;
   }
 
   /**
@@ -74,15 +87,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     return true;
   }
 
-  /**
-   * @param Request $request
-   * @param AuthenticationException $exception
-   * @return RedirectResponse|void
-   */
-  public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-  {
-
-  }
+//  /**
+//   * @param Request $request
+//   * @param AuthenticationException $exception
+//   * @return RedirectResponse|void
+//   */
+//  public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+//  {
+//
+//  }
 
   /**
    * @param Request $request
@@ -92,26 +105,26 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
    */
   public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
   {
-    dd('Success');
+    return new RedirectResponse($this->router->generate('app_homepage'));
   }
 
-  /**
-   * @param Request $request
-   * @param AuthenticationException|null $authException
-   * @return RedirectResponse|void
-   */
-  public function start(Request $request, AuthenticationException $authException = null)
-  {
-    // todo
-  }
-
-  /**
-   * @return bool|void
-   */
-  public function supportsRememberMe()
-  {
-    // todo
-  }
+//  /**
+//   * @param Request $request
+//   * @param AuthenticationException|null $authException
+//   * @return RedirectResponse|void
+//   */
+//  public function start(Request $request, AuthenticationException $authException = null)
+//  {
+//    // todo
+//  }
+//
+//  /**
+//   * @return bool|void
+//   */
+//  public function supportsRememberMe()
+//  {
+//    // todo
+//  }
 
   /**
    * Return the URL to the login page.
@@ -120,6 +133,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
    */
   protected function getLoginUrl()
   {
-    // TODO: Implement getLoginUrl() method.
+    return $this->router->generate('app_login');
   }
 }
