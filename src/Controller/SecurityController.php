@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,5 +23,14 @@ class SecurityController extends AbstractController
       'error' => $error,
       'last_username' => $lastUserName
     ]);
+  }
+
+  /**
+   * @Route("/logout", name="app_logout")
+   * @throws Exception
+   */
+  public function logout()
+  {
+    return $this->redirectToRoute('app_login');
   }
 }
