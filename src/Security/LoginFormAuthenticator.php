@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,18 +35,24 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
    * @var CsrfTokenManagerInterface
    */
   private $csrfTokenManager;
+  /**
+   * @var UserPasswordEncoderInterface
+   */
+  private $userPasswordEncoder;
 
   /**
    * LoginFormAuthenticator constructor.
    * @param UserRepository $userRepository
    * @param RouterInterface $router
    * @param CsrfTokenManagerInterface $csrfTokenManager
+   * @param UserPasswordEncoderInterface $userPasswordEncoder
    */
-  public function __construct(UserRepository $userRepository, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager)
+  public function __construct(UserRepository $userRepository, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $userPasswordEncoder)
   {
     $this->userRepository = $userRepository;
     $this->router = $router;
     $this->csrfTokenManager = $csrfTokenManager;
+    $this->userPasswordEncoder = $userPasswordEncoder;
   }
 
   /**
@@ -85,7 +92,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
   public function getUser($credentials, UserProviderInterface $userProvider)
   {
     $token = new CsrfToken('authenticate', $credentials['csrf_token']);
-    if (!$this->csrfTokenManager->isTokenValid($token)){
+    if (!$this->csrfTokenManager->isTokenValid($token)) {
       throw new InvalidCsrfTokenException();
     }
     return $this->userRepository->findOneBy(['email' => $credentials['email']]);
@@ -98,7 +105,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
    */
   public function checkCredentials($credentials, UserInterface $user)
   {
-    return true;
+    return $this->userPasswordEncoder->isPasswordValid($user, $credentials['password']);
   }
 
 //  /**

@@ -10,108 +10,120 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+  /**
+   * @ORM\Id()
+   * @ORM\GeneratedValue()
+   * @ORM\Column(type="integer")
+   */
+  private $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $email;
+  /**
+   * @ORM\Column(type="string", length=180, unique=true)
+   */
+  private $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
-    private $roles = [];
+  /**
+   * @ORM\Column(type="json")
+   */
+  private $roles = [];
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $firstName;
+  /**
+   * @ORM\Column(type="string", length=255)
+   */
+  private $firstName;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+  /**
+   * @ORM\Column(type="string", length=255)
+   */
+  private $password;
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
+  public function getId(): ?int
+  {
+    return $this->id;
+  }
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
+  public function getEmail(): ?string
+  {
+    return $this->email;
+  }
 
-        return $this;
-    }
+  public function setEmail(string $email): self
+  {
+    $this->email = $email;
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUsername(): string
-    {
-        return (string) $this->email;
-    }
+    return $this;
+  }
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+  /**
+   * A visual identifier that represents this user.
+   *
+   * @see UserInterface
+   */
+  public function getUsername(): string
+  {
+    return (string)$this->email;
+  }
 
-        return array_unique($roles);
-    }
+  /**
+   * @see UserInterface
+   */
+  public function getRoles(): array
+  {
+    $roles = $this->roles;
+    // guarantee every user at least has ROLE_USER
+    $roles[] = 'ROLE_USER';
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
+    return array_unique($roles);
+  }
 
-        return $this;
-    }
+  public function setRoles(array $roles): self
+  {
+    $this->roles = $roles;
 
-    /**
-     * @see UserInterface
-     */
-    public function getPassword()
-    {
-        // not needed for apps that do not check user passwords
-    }
+    return $this;
+  }
 
-    /**
-     * @see UserInterface
-     */
-    public function getSalt()
-    {
-        // not needed for apps that do not check user passwords
-    }
+  /**
+   * @see UserInterface
+   */
+  public function getPassword()
+  {
+    return $this->password;
+  }
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+  /**
+   * @see UserInterface
+   */
+  public function getSalt()
+  {
+    // not needed when using bcrypt or argon
+  }
 
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
+  /**
+   * @see UserInterface
+   */
+  public function eraseCredentials()
+  {
+    // If you store any temporary, sensitive data on the user, clear it here
+    // $this->plainPassword = null;
+  }
 
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
+  public function getFirstName(): ?string
+  {
+    return $this->firstName;
+  }
 
-        return $this;
-    }
+  public function setFirstName(string $firstName): self
+  {
+    $this->firstName = $firstName;
+
+    return $this;
+  }
+
+  public function setPassword(string $password): self
+  {
+    $this->password = $password;
+
+    return $this;
+  }
 }
