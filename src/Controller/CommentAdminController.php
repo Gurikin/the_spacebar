@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class CommentAdminController
  * @package App\Controller
- * @IsGranted("ROLE_ADMIN")
+ * @IsGranted("ROLE_ADMIN_COMMENT")
  */
 class CommentAdminController extends AbstractController
 {
@@ -34,11 +34,8 @@ class CommentAdminController extends AbstractController
       $request->query->getInt('page', 1)/*page number*/,
       10/*limit per page*/
     );
-
-//    $comments = $repository->findAllWithSearch($q);
     return $this->render('comment_admin/index.html.twig', [
       'pagination' => $pagination,
-//      'comments' => $comments,
     ]);
   }
 }
