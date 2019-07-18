@@ -170,6 +170,13 @@ html {height:100%}
     background-color: #fff;
 }
 
+.show-article-container-border-green {
+    width: 100%;
+    background-color: #fff;
+    border-top: 5px solid #4f805d;
+    border-radius: 5px;
+}
+
 .show-article-img {
     width: 250px;
     height: auto;
