@@ -135,24 +135,6 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     return new RedirectResponse($this->router->generate('app_homepage'));
   }
 
-//  /**
-//   * @param Request $request
-//   * @param AuthenticationException|null $authException
-//   * @return RedirectResponse|void
-//   */
-//  public function start(Request $request, AuthenticationException $authException = null)
-//  {
-//    // todo
-//  }
-//
-//  /**
-//   * @return bool|void
-//   */
-//  public function supportsRememberMe()
-//  {
-//    // todo
-//  }
-
   /**
    * Return the URL to the login page.
    *
