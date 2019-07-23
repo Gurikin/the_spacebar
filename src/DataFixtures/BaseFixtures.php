@@ -35,13 +35,14 @@ abstract class BaseFixtures extends Fixture
     for ($i = 0; $i < $count; $i++) {
       $entity = new $className();
       $factory($entity, $i);
-      $this->manager->persist($entity);
+//      $this->manager->persist($entity);
+//      $this->manager->flush();
       // store for usage later as App\Entity\ClassName_#COUNT#
-      if (!$this->hasReference($className . '_' . $i)) {
-        $this->addReference($className . '_' . $i, $entity);
-      } else {
-        $this->addReference($className . '_' . $i . '_', $entity);
-      }
+//      if (!$this->hasReference($className . '_' . $i)) {
+//        $this->addReference($className . '_' . $i, $entity);
+//      } else {
+//        $this->addReference($className . '_' . $i . '_', $entity);
+//      }
     }
   }
 
