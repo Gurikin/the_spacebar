@@ -5,6 +5,8 @@
 /.env.*.local
 /public/bundles/
 /var/
+!/var/cache
+/var/cache/*
 /vendor/
 ###< symfony/framework-bundle ###
 .idea/

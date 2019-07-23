@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
     "content-hash": "6e3ca9043e05da2d9735ce47ecabb3a3",
@@ -3218,16 +3218,16 @@
         },
         {
             "name": "symfony/form",
-            "version": "v4.2.9",
+            "version": "v4.2.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/form.git",
-                "reference": "001df587fe68362ca8b78253eae755c90e29b3f7"
+                "reference": "9ceda90f34d7670627c00806380a30973bcc694f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/form/zipball/001df587fe68362ca8b78253eae755c90e29b3f7",
-                "reference": "001df587fe68362ca8b78253eae755c90e29b3f7",
+                "url": "https://api.github.com/repos/symfony/form/zipball/9ceda90f34d7670627c00806380a30973bcc694f",
+                "reference": "9ceda90f34d7670627c00806380a30973bcc694f",
                 "shasum": ""
             },
             "require": {
@@ -3296,7 +3296,7 @@
             ],
             "description": "Symfony Form Component",
             "homepage": "https://symfony.com",
-            "time": "2019-05-20T16:15:26+00:00"
+            "time": "2019-06-26T06:46:55+00:00"
         },
         {
             "name": "symfony/framework-bundle",
