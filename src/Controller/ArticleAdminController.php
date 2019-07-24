@@ -33,16 +33,16 @@ class ArticleAdminController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-
-            $article = new Article();
-            $article->setTitle($data['title']);
-            $article->setContent($data['content']);
-            $article->setAuthor($this->getUser());
-            $em->persist($article);
-            $em->flush();
-
-            $this->addFlash('success', 'Article Created! Knowledge is power!');
+            /** @var Article $article */
+            $article = $form->getData();
+//            dd($article);
+//            $article->setTitle($article['title']);
+//            $article->setContent($article['content']);
+//            $article->setAuthor($this->getUser());
+//            $em->persist($article);
+//            $em->flush();
+//
+//            $this->addFlash('success', 'Article Created! Knowledge is power!');
 
 //            return $this->redirectToRoute('app_homepage');
         }
