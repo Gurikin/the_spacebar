@@ -308,4 +308,10 @@ class Article
 
         return $this;
     }
+
+    public function isPublished(): bool
+    {
+        $isPublished = ($this->getPublishedAt() !== null) && ($this->getPublishedAt() <= (new \DateTime('now')));
+        return $isPublished;
+    }
 }
