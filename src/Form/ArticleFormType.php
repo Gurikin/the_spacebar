@@ -34,7 +34,8 @@ class ArticleFormType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'help' => 'Choose something catchy!'
+                'help' => 'Choose something catchy!',
+
             ])
             ->add('content')
             ->add('publishedAt', null, [
@@ -46,7 +47,8 @@ class ArticleFormType extends AbstractType
                     return sprintf("(%s) %s", $user->getFirstName(), $user->getEmail());
                 },
                 'placeholder' => 'Choose the author',
-                'choices' => $this->userRepository->findAllEmailAlphabetical()
+                'choices' => $this->userRepository->findAllEmailAlphabetical(),
+                'invalid_message' => 'Symfony is too smart for your hacking!'
             ])
         ;
     }
