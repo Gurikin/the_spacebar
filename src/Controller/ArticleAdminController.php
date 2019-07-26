@@ -39,12 +39,12 @@ class ArticleAdminController extends AbstractController
 //            $article->setTitle($article['title']);
 //            $article->setContent($article['content']);
 //            $article->setAuthor($this->getUser());
-//            $em->persist($article);
-//            $em->flush();
+            $em->persist($article);
+            $em->flush();
 //
-//            $this->addFlash('success', 'Article Created! Knowledge is power!');
+            $this->addFlash('success', 'Article Created! Knowledge is power!');
 
-//            return $this->redirectToRoute('app_homepage');
+//            return $this->redirectToRoute('app_articleadmin_list');
         }
 
         return $this->render('article_admin/new.html.twig', [
