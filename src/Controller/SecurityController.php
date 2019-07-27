@@ -52,6 +52,7 @@ class SecurityController extends AbstractController
         $form = $this->createForm(UserRegistrationFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            dd($form['plainPassword']->getData());
             $user = $form->getData();
             $user->setPassword($userPasswordEncoder->encodePassword(
                 $user,

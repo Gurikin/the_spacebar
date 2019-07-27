@@ -13,7 +13,7 @@
             <div class="col-sm-12">
                 {#                #}{# todo - replace with a Symfony form! #}
                 {#                <form class="form-signin" method="post">#}
-                                    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+                <h1 class="h3 mb-3 font-weight-normal">Register</h1>
                 {#                    <label for="inputEmail" class="sr-only">Email address</label>#}
                 {#                    <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address"#}
                 {#                           required autofocus>#}
@@ -31,7 +31,7 @@
                 {#                </form>#}
                 {{ form_start(registrationForm) }}
                 {{ form_widget(registrationForm) }}
-{#                {{ form_widget(registrationForm.register, {label: 'Register'}) }}#}
+                {#                {{ form_widget(registrationForm.register, {label: 'Register'}) }}#}
                 <button class="btn btn-lg btn-primary btn-block" type="submit">
                     Register
                 </button>
@@ -39,5 +39,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

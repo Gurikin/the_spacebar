@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,10 +24,8 @@ class UserRegistrationFormType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('password', TextType::class,
-                [
-                    'attr' => ['class' => 'form-control', 'type' => 'password']
-                ]);
+            ->add('plainPassword', PasswordType::class, ['mapped' => false]);
+
 //            ->add('register', ButtonType::class,
 //                [
 //                    'attr' => ['class' => 'save btn btn-default pull-right', 'type' => 'submit'],
