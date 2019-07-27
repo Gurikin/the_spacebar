@@ -2,7 +2,7 @@
 {% block content_body %}
     <h1>Launch a new Article! ?</h1>
     {{ form_start(articleForm) }}
-    {{ form_row(articleForm.title) }}
+    {{ form_row(articleForm.title, {label : 'Заголовок'}) }}
     {{ form_row(articleForm.author) }}
     {{ form_row(articleForm.content) }}
     {{ form_row(articleForm.publishedAt) }}
