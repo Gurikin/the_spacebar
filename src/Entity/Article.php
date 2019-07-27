@@ -338,11 +338,6 @@ class Article
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-//        if (stripos($this->getTitle(), 'the borg') !== false) {
-//            $context->buildViolation('Um.. the Bork kinda makes us nervous')
-//                ->atPath('title')
-//                ->addViolation();
-//        }
         if ($this->getTitle() == $this->getContent()) {
             $context->buildViolation('Будь креативным и оригинальным')
                 ->atPath('title')
