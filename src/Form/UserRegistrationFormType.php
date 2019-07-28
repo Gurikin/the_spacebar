@@ -48,12 +48,6 @@ class UserRegistrationFormType extends AbstractType
                     'constraints' => new IsTrue(['message' => 'I know, it\'s silly, but you must agree to our terms.'])
                 ]
             );
-
-//            ->add('register', ButtonType::class,
-//                [
-//                    'attr' => ['class' => 'save btn btn-default pull-right', 'type' => 'submit'],
-//                ]
-//            );
     }
 
     /**
@@ -61,9 +55,10 @@ class UserRegistrationFormType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-            'attr' => ['class' => 'form-signin', 'novalidate' => 'true']
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => User::class,
+            ]
+        );
     }
 }
