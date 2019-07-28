@@ -32,6 +32,7 @@ class UserFixture extends BaseFixtures
             if ($this->faker->boolean) {
                 $user->setTwitterUsername($this->faker->userName);
             }
+            $user->agreeToTerms();
             $apiToken1 = new ApiToken($user);
             $apiToken2 = new ApiToken($user);
             $manager->persist($apiToken1);
@@ -51,6 +52,7 @@ class UserFixture extends BaseFixtures
             $user->setFirstName($this->faker->firstName);
             $user->setPassword($this->userPasswordEncoder->encodePassword($user, 'pass'));
             $user->setRoles(['ROLE_ADMIN']);
+            $user->agreeToTerms();
             $manager->persist($user);
             $manager->flush();
         });
