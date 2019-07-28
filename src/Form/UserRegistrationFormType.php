@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class UserRegistrationFormType
@@ -24,7 +26,20 @@ class UserRegistrationFormType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('plainPassword', PasswordType::class, ['mapped' => false]);
+            ->add('plainPassword', PasswordType::class,
+                [
+                    'mapped' => false,
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Choose a password!'
+                        ]),
+                        new Length([
+                            'min' => 5,
+                            'minMessage' => 'Come on, you can think of a password longer than that!'
+                        ])
+                    ]
+                ]
+            );
 
 //            ->add('register', ButtonType::class,
 //                [
@@ -40,7 +55,7 @@ class UserRegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'attr' => ['class' => 'form-signin']
+            'attr' => ['class' => 'form-signin', 'novalidate' => 'true']
         ]);
     }
 }
