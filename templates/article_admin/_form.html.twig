@@ -1,4 +1,4 @@
-{{ form_start(articleForm) }}
+{{ form_start(articleForm, {'attr' : {'novalidate' : 'true'}})}}
     {{ form_row(articleForm.title, {label : 'Заголовок'}) }}
     {{ form_row(articleForm.author) }}
     {{ form_row(articleForm.content) }}

@@ -107,6 +107,9 @@ class EmailToUserTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
+        if ($value === null) {
+            return null;
+        }
         $user = $this->userRepository->findOneBy(['email'=>$value]);
 
         if (!$user) {

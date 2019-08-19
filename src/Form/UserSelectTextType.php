@@ -9,6 +9,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class UserSelectTextType
@@ -46,4 +47,18 @@ class UserSelectTextType extends AbstractType
     {
         $builder->addModelTransformer(new EmailToUserTransformer($this->userRepository));
     }
+
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'invalid_message' => 'Hmmm, user not found!'
+            ]
+        );
+    }
+
+
 }
