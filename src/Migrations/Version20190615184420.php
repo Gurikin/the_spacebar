@@ -1,36 +1,36 @@
 <?php
 
-declare(strict_types=1);
+	declare(strict_types=1);
 
-namespace DoctrineMigrations;
+	namespace DoctrineMigrations;
 
-use Doctrine\DBAL\Schema\Schema;
-use Doctrine\Migrations\AbstractMigration;
+	use Doctrine\DBAL\Schema\Schema;
+	use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
-final class Version20190615184420 extends AbstractMigration
-{
-  public function getDescription(): string
-  {
-    return '';
-  }
+	/**
+	 * Auto-generated Migration: Please modify to your needs!
+	 */
+	final class Version20190615184420 extends AbstractMigration
+	{
+		public function getDescription(): string
+		{
+			return '';
+		}
 
-  public function up(Schema $schema): void
-  {
-    // this up() migration is auto-generated, please modify it to your needs
-    $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+		public function up(Schema $schema): void
+		{
+			// this up() migration is auto-generated, please modify it to your needs
+			$this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-    $this->addSql('ALTER TABLE article ADD created_at DATETIME DEFAULT NULL, ADD updated_at DATETIME DEFAULT NULL, CHANGE slug slug VARCHAR(128) NOT NULL');
-    $this->addSql('UPDATE article SET created_at = NOW(), updated_at = NOW()');
-  }
+			$this->addSql('ALTER TABLE article ADD created_at DATETIME DEFAULT NULL, ADD updated_at DATETIME DEFAULT NULL, CHANGE slug slug VARCHAR(128) NOT NULL');
+			$this->addSql('UPDATE article SET created_at = NOW(), updated_at = NOW()');
+		}
 
-  public function down(Schema $schema): void
-  {
-    // this down() migration is auto-generated, please modify it to your needs
-    $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+		public function down(Schema $schema): void
+		{
+			// this down() migration is auto-generated, please modify it to your needs
+			$this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-    $this->addSql('ALTER TABLE article DROP created_at, DROP updated_at, CHANGE slug slug VARCHAR(100) NOT NULL COLLATE utf8mb4_unicode_ci');
-  }
-}
+			$this->addSql('ALTER TABLE article DROP created_at, DROP updated_at, CHANGE slug slug VARCHAR(100) NOT NULL COLLATE utf8mb4_unicode_ci');
+		}
+	}
