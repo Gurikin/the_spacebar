@@ -1,16 +1,16 @@
 <?php
 
-	namespace App\DataFixtures;
+namespace App\DataFixtures;
 
-	use App\Entity\Article;
-	use App\Entity\Comment;
-	use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-	use Doctrine\Common\Persistence\ObjectManager;
+use App\Entity\Article;
+use App\Entity\Comment;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
-	class CommentFixtures extends BaseFixtures/* implements DependentFixtureInterface*/
+class CommentFixtures extends BaseFixtures/* implements DependentFixtureInterface*/
+{
+	protected function loadData(ObjectManager $manager)
 	{
-		protected function loadData(ObjectManager $manager)
-		{
 //    $this->createMany(Comment::class, 100, function (Comment $comment, $i) use ($manager) {
 //      $comment->setContent(
 //        $this->faker->boolean ? $this->faker->paragraph : $this->faker->sentences(2, true)
@@ -21,7 +21,7 @@
 //      $manager->persist($comment);
 //    });
 //    $manager->flush();
-		}
+	}
 //  /**
 //   * This method must return an array of fixtures classes
 //   * on which the implementing class depends on
@@ -32,4 +32,4 @@
 //  {
 //    return [ArticleFixtures::class];
 //  }
-	}
+}
