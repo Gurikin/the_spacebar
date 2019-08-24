@@ -3,6 +3,7 @@
 namespace App\Form\TypeExtension;
 
 
+use Http\Client\Exception;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
