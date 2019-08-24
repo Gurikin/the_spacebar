@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\Model\UserRegistrationFormModel;
 use App\Form\UserRegistrationFormType;
 use App\Security\LoginFormAuthenticator;
 use Exception;
@@ -53,13 +54,15 @@ class SecurityController extends AbstractController
 		$form = $this->createForm(UserRegistrationFormType::class);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
-			/** @var User $user */
-			$user = $form->getData();
+			/** @var UserRegistrationFormModel $user */
+			$userModel = $form->getData();
+			$user = new User();
+			$user->setEmail($userModel->email);
 			$user->setPassword($userPasswordEncoder->encodePassword(
 				$user,
-				$form['plainPassword']->getData()
+				$userModel->plainPassword
 			));
-			if (true === $form['agreeTerms']->getData()) {
+			if (true === $userModel->agreeTerms) {
 				$user->agreeToTerms();
 			}
 
