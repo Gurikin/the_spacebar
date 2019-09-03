@@ -9,5 +9,6 @@
 !/var/cache
 /var/cache/*
 /vendor/
+/log/*
 ###< symfony/framework-bundle ###
 .idea/
