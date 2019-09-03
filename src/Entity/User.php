@@ -65,7 +65,7 @@ class User implements UserInterface
 	private $apiTokens;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="author")
+	 * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="author", fetch="EXTRA_LAZY")
 	 */
 	private $articles;
 
